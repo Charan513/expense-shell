@@ -34,7 +34,7 @@ echo "Script started executing at: $TIMESTAMP" &>>$LOG_FILE_NAME
 
 CHECK_ROOT
 
-dnf disable nodejs -y &>>$LOG_FILE_NAME
+dnf module disable nodejs -y &>>$LOG_FILE_NAME
 VALIDATE $? "Disabling existing default NodeJS"
 
 dnf module enable nodejs:20 -y &>>$LOG_FILE_NAME
