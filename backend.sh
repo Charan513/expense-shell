@@ -70,11 +70,11 @@ VALIDATE $? "Installing MySQL Clinet"
 systemctl daemon-reload &>>$LOG_FILE_NAME
 VALIDATE $? "Daemon Reload"
 
-systemctl enable backend &>>$LOG_FILE_NAME
-VALIDATE $? "Enabling backend"
-
 systemctl start backend &>>$LOG_FILE_NAME
 VALIDATE $? "Starting backend"
+
+systemctl enable backend &>>$LOG_FILE_NAME
+VALIDATE $? "Enabling backend"
 
 
 # mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pExpenseApp@1 < /app/schema/backend.sql
