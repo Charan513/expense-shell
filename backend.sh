@@ -50,7 +50,7 @@ mkdir /app &>>$LOG_FILE_NAME
 VALIDATE $? "Creating app directory" 
 
 curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expense-backend-v2.zip &>>$LOG_FILE_NAME
-VALIDATE $? "DOwnloading backend"
+VALIDATE $? "Downloading backend"
 
 cd /app
 
@@ -60,7 +60,7 @@ VALIDATE $? "Unzipping backend"
 npm install &>>$LOG_FILE_NAME
 VALIDATE $? "Installing dependencies"
 
-cp backend.service/home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOG_FILE_NAME
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOG_FILE_NAME
 
 # Prepare MySQL Schema
 
@@ -70,11 +70,11 @@ VALIDATE $? "Installing MySQL Clinet"
 systemctl daemon-reload &>>$LOG_FILE_NAME
 VALIDATE $? "Daemon Reload"
 
-systemctl start backend &>>$LOG_FILE_NAME
-VALIDATE $? "Starting backend"
-
 systemctl enable backend &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling backend"
+
+systemctl start backend &>>$LOG_FILE_NAME
+VALIDATE $? "Starting backend"
 
 
 # mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pExpenseApp@1 < /app/schema/backend.sql
