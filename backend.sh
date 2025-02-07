@@ -53,6 +53,7 @@ curl -o /tmp/backend.zip https://expense-builds.s3.us-east-1.amazonaws.com/expen
 VALIDATE $? "Downloading backend"
 
 cd /app
+rm -rf /app/*
 
 unzip /tmp/backend.zip &>>$LOG_FILE_NAME
 VALIDATE $? "Unzipping backend"
@@ -60,12 +61,17 @@ VALIDATE $? "Unzipping backend"
 npm install &>>$LOG_FILE_NAME
 VALIDATE $? "Installing dependencies"
 
-cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOG_FILE_NAME
+
+cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service
+# cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.service &>>$LOG_FILE_NAME
 
 # Prepare MySQL Schema
 
 dnf install mysql -y &>>$LOG_FILE_NAME
 VALIDATE $? "Installing MySQL Clinet"
+
+mysql -h database.charankandukuri.site -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE_NAME
+VALIDATE $? "Setting up the transactions schema and tables"
 
 systemctl daemon-reload &>>$LOG_FILE_NAME
 VALIDATE $? "Daemon Reload"
@@ -73,10 +79,5 @@ VALIDATE $? "Daemon Reload"
 systemctl enable backend &>>$LOG_FILE_NAME
 VALIDATE $? "Enabling backend"
 
-systemctl start backend &>>$LOG_FILE_NAME
-VALIDATE $? "Starting backend"
-
-
-# mysql -h <MYSQL-SERVER-IPADDRESS> -uroot -pExpenseApp@1 < /app/schema/backend.sql
-
-# systemctl restart backend
+systemctl restart backend &>>$LOG_FILE_NAME
+VALIDATE $? "Starting Backend"
