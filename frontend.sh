@@ -8,7 +8,7 @@ Y="\e[33m"
 N="\e[0m"
 
 # "-p" → Ensures that parent directories are created if they don’t exist and prevents errors if the directory already exists.
-mkdir -p $LOGS_FOLDER
+sudo mkdir -p "$LOGS_FOLDER"
 
 LOGS_FOLDER="/var/log/expense-logs"
 LOG_FILE=$(echo $0 | cut -d "." -f1 )
