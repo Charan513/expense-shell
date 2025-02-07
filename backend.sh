@@ -70,7 +70,7 @@ cp /home/ec2-user/expense-shell/backend.service /etc/systemd/system/backend.serv
 dnf install mysql -y &>>$LOG_FILE_NAME
 VALIDATE $? "Installing MySQL Clinet"
 
-mysql -h database.charankandukuri.site -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE_NAME
+mysql -h database.charankandukuri.site -P 3306 -uroot -pExpenseApp@1 < /app/schema/backend.sql &>>$LOG_FILE_NAME
 VALIDATE $? "Setting up the transactions schema and tables"
 
 systemctl daemon-reload &>>$LOG_FILE_NAME
